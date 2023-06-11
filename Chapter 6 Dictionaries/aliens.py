@@ -1,3 +1,5 @@
+# A List of Dictionaries (Nesting)
+
 # Make an empty list for storing aliens.
 aliens = []
 
@@ -12,7 +14,19 @@ for alien in aliens[:3]:
         alien['color'] = 'yellow'
         alien['speed'] = 'medium'
         alien['points'] = 10
-    elif alien['color'] = 'yellow':
+    elif alien['color'] == 'yellow':
+        alien['color'] = 'red'
+        alien['speed'] = 'fast'
+        alien['points'] = 15
+
+# Change the first three aliens to yellow, medium-speed aliens worth 10 points each,
+# then add an elif block that turns yellow aliens into red, fast-moving ones worth 15 points each.
+for alien in aliens[:3]:
+    if alien['color'] == 'green':
+        alien['color'] = 'yellow'
+        alien['speed'] = 'medium'
+        alien['points'] = 10
+    elif alien['color'] == 'yellow':
         alien['color'] = 'red'
         alien['speed'] = 'fast'
         alien['points'] = 15
