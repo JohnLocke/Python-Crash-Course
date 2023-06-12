@@ -1,3 +1,5 @@
+# When you use the input() function, Python interprets everything the user enters as a string.
+# The int() function converts a string representation of a number to a numerical representation,
 height = input("How tall are you, in inches? ")
 height = int(height)
 

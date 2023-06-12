@@ -1,3 +1,4 @@
+# The modulo operator(%) divides one number by another number and returns the remainder.
 number = input("Enter a number, and I'll tell you if it's even or odd: ")
 number = int(number)
 
