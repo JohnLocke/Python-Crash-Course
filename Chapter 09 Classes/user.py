@@ -2,7 +2,7 @@
 
 
 class User:
-    """A simple attempt to model a restaurant."""
+    """A simple attempt to model a user."""
 
     def __init__(self, first_name, last_name, age, gender):
         self.first_name = first_name
