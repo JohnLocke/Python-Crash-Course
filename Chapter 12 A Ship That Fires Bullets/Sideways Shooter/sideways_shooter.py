@@ -7,7 +7,7 @@ from ship import Ship
 from bullet import Bullet
 
 
-class AlienInvasion:
+class SidewaysShooter:
     """Overall class to manage game assets and behavior."""
 
     def __init__(self):
@@ -20,7 +20,7 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
 
-        pygame.display.set_caption("Alien Invasion")
+        pygame.display.set_caption("Sideways Shooter")
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -47,10 +47,10 @@ class AlienInvasion:
 
     def _check_keydown_events(self, event):
         """Respond to keypresses."""
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = True
+        if event.key == pygame.K_DOWN:
+            self.ship.moving_down = True
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = True
         elif event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_SPACE:
@@ -58,10 +58,10 @@ class AlienInvasion:
 
     def _check_keyup_events(self, event):
         """Respond to key releases."""
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = False
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = False
+        if event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = False
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
@@ -76,7 +76,7 @@ class AlienInvasion:
 
         # Get rid of bullets that have disappeared.
         for bullet in self.bullets.copy():
-            if bullet.rect.bottom <= 0:
+            if bullet.rect.left >= self.screen.get_rect().right:
                 self.bullets.remove(bullet)
 
     def _update_screen(self):
@@ -93,5 +93,5 @@ class AlienInvasion:
 
 if __name__ == '__main__':
     # Make a game instance, and run the game.
-    ai = AlienInvasion()
-    ai.run_game()
+    ss = SidewaysShooter()
+    ss.run_game()
