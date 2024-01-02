@@ -14,3 +14,4 @@ The sample code and exercises, based on the third edition of the English origina
     chapter11_Testing Your Code
 ## Part II-Projects
     project01_Alien Invasion
+    project02_Data Visualization
