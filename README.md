@@ -1,7 +1,5 @@
-# Sample Code and Exercises Repository
-
-This repository contains sample code and exercises based on the third edition of the English original book. 
-The content here is intended solely for my personal learning and practice. 
+# Python Crash Course
+This repository contains sample code and exercises based on the third edition of the English original book.
 All code examples and exercises are derived from the original author's work.
 
 ## Original Author's Repository
