@@ -1,5 +1,17 @@
-# Python-Crash-Course
-The sample code and exercises, based on the third edition of the English original book.
+# Sample Code and Exercises Repository
+
+This repository contains sample code and exercises based on the third edition of the English original book. 
+The content here is intended solely for my personal learning and practice. 
+All code examples and exercises are derived from the original author's work.
+
+## Original Author's Repository
+You can find the original author's code repository at: [ehmatthes/pcc_3e](https://github.com/ehmatthes/pcc_3e)
+
+## Usage
+This project is for personal use only and is not intended for commercial use. 
+Please refer to the original repository for official source code and detailed documentation.
+All rights belong to the original author of the book.
+
 ## Part I-Basics
     chapter01_Getting Started
     chapter02_Variables and Simple Data Types
