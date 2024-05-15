@@ -11,4 +11,4 @@ python manage.py runserver
 
 # A test username and email
 username: locke
-emailL locke@example.com
+email: locke@example.com
