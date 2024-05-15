@@ -10,25 +10,49 @@ def index(request):
     """The home page for Learning Log."""
     return render(request, 'learning_logs/index.html')
 
-
-@login_required
 def topics(request):
-    """Show all topics."""
-    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
-    context = {'topics': topics}
+    """Show all of the current user's topics, and public topics that belong
+    to other users.
+    """
+    # Get all appropriate topics.
+    # If a user is logged in, we get all of their topics, and all public topics
+    #   from other users.
+    # If a user is not logged in, we get all public topics.
+    if request.user.is_authenticated:
+        topics = Topic.objects.filter(owner=request.user).order_by('date_added')
+        # Get all public topics not owned by the current user.
+        # Note: Wrapping the query in parentheses lets you break the long query
+        #   up across multiple lines.
+        public_topics = (Topic.objects
+            .filter(public=True)
+            .exclude(owner=request.user)
+            .order_by('date_added'))
+    else:
+        # User is not authenticated; return all public topics.
+        topics = None
+        public_topics = Topic.objects.filter(public=True).order_by('date_added')
+
+    context = {'topics': topics, 'public_topics': public_topics}
     return render(request, 'learning_logs/topics.html', context)
 
-
-@login_required
 def topic(request, topic_id):
     """Show a single topic and all its entries."""
     topic = Topic.objects.get(id=topic_id)
-    # Make sure the topic belongs to the current user.
-    check_topic_owner(topic, request.user)
-    entries = topic.entry_set.order_by('-date_added')
-    context = {'topic': topic, 'entries': entries}
-    return render(request, 'learning_logs/topic.html', context)
 
+    # We only want to show new_entry and edit_entry links if the current
+    #   user owns this topic.
+    is_owner = False
+    if request.user == topic.owner:
+        is_owner = True
+
+    # If the topic belongs to someone else, and it is not public,
+    #   show an error page.
+    if (topic.owner != request.user) and (not topic.public):
+        raise Http404
+
+    entries = topic.entry_set.order_by('-date_added')
+    context = {'topic': topic, 'entries': entries, 'is_owner': is_owner}
+    return render(request, 'learning_logs/topic.html', context)
 
 @login_required
 def new_topic(request):
@@ -49,12 +73,10 @@ def new_topic(request):
     context = {'form': form}
     return render(request, 'learning_logs/new_topic.html', context)
 
-
 @login_required
 def new_entry(request, topic_id):
     """Add a new entry for a particular topic."""
     topic = Topic.objects.get(id=topic_id)
-    check_topic_owner(topic, request.user)
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
@@ -72,13 +94,13 @@ def new_entry(request, topic_id):
     context = {'topic': topic, 'form': form}
     return render(request, 'learning_logs/new_entry.html', context)
 
-
 @login_required
 def edit_entry(request, entry_id):
     """Edit an existing entry."""
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
-    check_topic_owner(topic, request.user)
+    if topic.owner != request.user:
+        raise Http404
 
     if request.method != 'POST':
         # Initial request; pre-fill form with the current entry.
@@ -92,15 +114,3 @@ def edit_entry(request, entry_id):
 
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
-
-
-def check_topic_owner(topic, user):
-    """Make sure the currently logged-in user owns the topic that's
-    being requested.
-
-    Raise Http404 error if the user does not own the topic.
-    """
-    if topic.owner != user:
-        raise Http404
-
-
