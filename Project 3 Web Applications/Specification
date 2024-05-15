@@ -8,3 +8,7 @@ ll_env\Scripts\activate
 
 # Viewing the Project
 python manage.py runserver
+
+# A test username and email
+username: locke
+emailL locke@example.com
